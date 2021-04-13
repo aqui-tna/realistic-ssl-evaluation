@@ -1,0 +1,251 @@
+{
+  "name": "aqui-tna/realistic-ssl-evaluation",
+  "url": "https://github.com/aqui-tna/realistic-ssl-evaluation",
+  "python_version": "3",
+  "requirements": {
+    "req_file": "requirements.txt",
+    "pip": [
+      "numpy",
+      "absl-py",
+      "tensorflow-gpu",
+      "scipy",
+      "tmuxp"
+    ],
+    "others": [
+    ]
+  },
+  "to_run": {
+      "decision": true,
+      "reason": ""
+  },
+  "entries": [
+      {
+        "cmd": "python3 build_tfrecords.py --dataset_name=cifar10",
+        "main": "python3 build_tfrecords.py",
+        "steps": [
+            "Prepare dataset"
+        ],
+        "args_lib": "unknown",
+        "args": [],
+        "ins": [
+            {
+            "type": "file",
+            "location": "cifar10",
+            "artifact": "dataset",
+            "ex_from": "dataset order and label maps will be created each time",
+            "ex_in_repo": false
+            }
+        ],
+        "outs": [
+            {
+                "type": ["unknown"],
+                "location": ["unknown"],
+                "artifact": ["unknown"],
+                "ex_from": ["unknown"],
+                "ex_in_repo": false
+            }
+        ]
+        },
+        {
+          "cmd": "python3 build_label_map.py --dataset_name=cifar10",
+          "main": "python3 build_label_map.py",
+          "steps": [
+              "Prepare dataset"
+          ],
+          "args_lib": "unknown",
+          "args": [],
+          "ins": [
+              {
+              "type": "file",
+              "location": "cifar10",
+              "artifact": "dataset",
+              "ex_from": "dataset order and label maps will be created each time",
+              "ex_in_repo": false
+              }
+          ],
+          "outs": [
+              {
+                  "type": ["unknown"],
+                  "location": ["unknown"],
+                  "artifact": ["unknown"],
+                  "ex_from": ["unknown"],
+                  "ex_in_repo": false
+              }
+          ]
+          },
+          {
+            "cmd": "python3 build_tfrecords.py --dataset_name=svhn",
+            "main": "python3 build_tfrecords.py",
+            "steps": [
+                "Prepare dataset"
+            ],
+            "args_lib": "unknown",
+            "args": [],
+            "ins": [
+                {
+                "type": "file",
+                "location": "svhn",
+                "artifact": "dataset",
+                "ex_from": "dataset order and label maps will be created each time",
+                "ex_in_repo": false
+                }
+            ],
+            "outs": [
+                {
+                    "type": ["unknown"],
+                    "location": ["unknown"],
+                    "artifact": ["unknown"],
+                    "ex_from": ["unknown"],
+                    "ex_in_repo": false
+                }
+            ]
+            },
+            {
+              "cmd": "python3 build_label_map.py --dataset_name=svhn",
+              "main": "python3 build_label_map.py",
+              "steps": [
+                  "Prepare dataset"
+              ],
+              "args_lib": "unknown",
+              "args": [],
+              "ins": [
+                  {
+                  "type": "file",
+                  "location": "svhn",
+                  "artifact": "dataset",
+                  "ex_from": "dataset order and label maps will be created each time",
+                  "ex_in_repo": false
+                  }
+              ],
+              "outs": [
+                  {
+                      "type": ["unknown"],
+                      "location": ["unknown"],
+                      "artifact": ["unknown"],
+                      "ex_from": ["unknown"],
+                      "ex_in_repo": false
+                  }
+              ]
+              },
+              {
+                "cmd": "python3 build_tfrecords.py --dataset_name=imagenet_32",
+                "main": "python3 build_tfrecords.py",
+                "steps": [
+                    "Prepare dataset"
+                ],
+                "args_lib": "unknown",
+                "args": [],
+                "ins": [
+                    {
+                    "type": "file",
+                    "location": "data/imagenet_32",
+                    "artifact": "dataset",
+                    "ex_from": "build the TFRecord files",
+                    "ex_in_repo": false
+                    }
+                ],
+                "outs": [
+                    {
+                        "type": ["unknown"],
+                        "location": ["unknown"],
+                        "artifact": ["unknown"],
+                        "ex_from": ["unknown"],
+                        "ex_in_repo": false
+                    }
+                ]
+                },
+                {
+                  "cmd": "tmuxp load runs/figure-3-svhn-500-vat.yml",
+                  "main": ["unknown"],
+                  "steps": [
+                      "Running experiments"
+                  ],
+                  "args_lib": "unknown",
+                  "args": [],
+                  "ins": [
+                      {
+                      "type": "file",
+                      "location": "runs/figure-3-svhn-500-vat.yml",
+                      "artifact": "file",
+                      "ex_from": " .yml files",
+                      "ex_in_repo": false
+                      }
+                  ],
+                  "outs": [
+                      {
+                          "type": ["unknown"],
+                          "location": ["unknown"],
+                          "artifact": ["unknown"],
+                          "ex_from": ["unknown"],
+                          "ex_in_repo": false
+                      }
+                  ]
+                  },
+                  {
+                    "cmd": "python3 evaluate_checkpoints.py --primary_dataset_name='cifar10' --checkpoints='/mnt/experiment-logs/section-4-3-cifar-fine-tuning/default/model.ckpt-1000000",
+                    "main": ["unknown"],
+                    "steps": [
+                        "Simulating small validation sets"
+                    ],
+                    "args_lib": "unknown",
+                    "args": [
+                        "primary_dataset_name"
+                    ],
+                    "ins": [
+                        {
+                        "type": "file",
+                        "location": "model.ckpt-1000000",
+                        "artifact": "file",
+                        "ex_from": "experiment-logs/section-4-3-cifar-fine-tuning",
+                        "ex_in_repo": false
+                        }
+                    ],
+                    "outs": [
+                        {
+                            "type": ["unknown"],
+                            "location": ["unknown"],
+                            "artifact": ["unknown"],
+                            "ex_from": ["unknown"],
+                            "ex_in_repo": false
+                        }
+                    ]
+                    }
+    ],
+
+  "ex_metrics": {
+    "metrics_files": [
+        {
+            "file_name": "evaluate_checkpoints.py",
+            "metrics": ["train_set","train_set"]
+        }
+    ],
+    "prints": ["accuracies"],
+    "plots": ["images","labels"],
+    "others": [
+        {
+            "name": "method name",
+            "in_repo": ["unknown"],
+            "metrics": ["unknown"]
+        }
+    ]
+  },
+  "ex_hyperparams": {
+    "from_cmd": ["unknown"],
+    "config_files": [
+        {
+            "name": ["evaluate_checkpoints.py"],
+            "in_repo": ["unknown"],
+            "hyperparams": ["hps"]
+        }
+    ],
+    "in_code": [
+      ["yes"]
+    ],
+    "others": [
+        {
+            "name": ["unknown"],
+            "metrics": ["unknown"]
+        }
+    ]
+  }
+}

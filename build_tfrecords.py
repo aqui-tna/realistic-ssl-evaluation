@@ -236,7 +236,7 @@ def main(_):
         test_set["images"],
         test_set["labels"],
         test_count,
-        "test",
+        "train",
         FLAGS.directory,
         FLAGS.dataset_name,
     )
