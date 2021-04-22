@@ -38,39 +38,18 @@ from lib import networks
 # Flags for model training
 # Evalutation binary never needs to know secondary dataset name or
 # the mixing factor.
-flags.DEFINE_string(
-    "hparam_string", None, "String from which we parse hparams."
-)
-flags.DEFINE_string(
-    "primary_dataset_name", "svhn", "Name of dataset containing primary data."
-)
+flags.DEFINE_string("hparam_string", None, "String from which we parse hparams.")
+flags.DEFINE_string("primary_dataset_name", "svhn", "Name of dataset containing primary data.")
 flags.DEFINE_string("split", "test", "train or test or valid.")
 flags.DEFINE_integer("examples_to_take", 100, "Number of examples to use.")
 flags.DEFINE_integer("num_evals", 10, "Total number of evals to run")
-flags.DEFINE_integer(
-    "shuffle_buffer_size", 1000, "Size of the shuffle buffer."
-)
-flags.DEFINE_integer(
-    "training_length", 500000, "number of steps to train for."
-)
-flags.DEFINE_string(
-    "consistency_model", "mean_teacher", "Which consistency model to use."
-)
-flags.DEFINE_string(
-    "zca_input_file_path",
-    "",
-    "Path to ZCA input statistics. '' means don't ZCA.",
-)
+flags.DEFINE_integer("shuffle_buffer_size", 1000, "Size of the shuffle buffer.")
+flags.DEFINE_integer("training_length", 500000, "number of steps to train for.")
+flags.DEFINE_string("consistency_model", "mean_teacher", "Which consistency model to use.")
+flags.DEFINE_string("zca_input_file_path","","Path to ZCA input statistics. '' means don't ZCA.",)
+flags.DEFINE_string("checkpoints",None,"A comma delimited list of checkpoint file prefixes to ""evaluate and then exit, e.g. "'"/dir1/model.ckpt-97231,/dir2/model.ckpt-1232".',)
 
-flags.DEFINE_string(
-    "checkpoints",
-    None,
-    "A comma delimited list of checkpoint file prefixes to "
-    "evaluate and then exit, e.g. "
-    '"/dir1/model.ckpt-97231,/dir2/model.ckpt-1232".',
-)
 flags.mark_flag_as_required("checkpoints")
-
 FLAGS = flags.FLAGS
 
 # Dummy value that is more likely to alert us to bugs that might arise

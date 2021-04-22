@@ -1,16 +1,10 @@
 {
-  "name": "aqui-tna/realistic-ssl-evaluation",
+  "name": "brain-research/realistic-ssl-evaluation",
   "url": "https://github.com/aqui-tna/realistic-ssl-evaluation",
   "python_version": "3",
   "requirements": {
     "req_file": "requirements.txt",
-    "pip": [
-      "numpy",
-      "absl-py",
-      "tensorflow-gpu",
-      "scipy",
-      "tmuxp"
-    ],
+    "pip": [],
     "others": []
   },
   "to_run": {
@@ -94,7 +88,7 @@
           "steps": [
               "Prepare dataset"
           ],
-          "args_lib": ,
+          "args_lib": "",
           "args": [],
           "ins": [
               {
@@ -123,19 +117,118 @@
           ]
           },
           {
-            "cmd": "python3 build_tfrecords.py --dataset_name=svhn",
-            "main": "python3 build_tfrecords.py",
+            "cmd": "python3 train_model.py",
+            "main": "train_model.py",
             "steps": [
-                "Prepare dataset"
+                "Training Model"
             ],
-            "args_lib": [],
-            "args": [],
+            "args_lib": "absl.flags",
+            "args": [
+                {
+                    "names": [
+                        "--hparam_string"
+                    ],
+                    "input": true,
+                    "dest": "hparam_string",
+                    "ex_has_default": false,
+                    "default": "None",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--primary_dataset_name"
+                    ],
+                    "input": true,
+                    "dest": "primary_dataset_name",
+                    "ex_has_default": false,
+                    "default": "svhn",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--secondary_dataset_name"
+                    ],
+                    "input": true,
+                    "dest": "secondary_dataset_name",
+                    "ex_has_default": false,
+                    "default": "",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--label_map_index"
+                    ],
+                    "input": true,
+                    "dest": "label_map_index",
+                    "ex_has_default": false,
+                    "default": 0,
+                    "type": "float",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--n_labeled"
+                    ],
+                    "input": true,
+                    "dest": "n_labeled",
+                    "ex_has_default": false,
+                    "default": -1,
+                    "type": "float",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--training_length"
+                    ],
+                    "input": true,
+                    "dest": "training_length",
+                    "ex_has_default": false,
+                    "default": 500000,
+                    "type": "float",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--batch_size"
+                    ],
+                    "input": true,
+                    "dest": "batch_size",
+                    "ex_has_default": false,
+                    "default": 100,
+                    "type": "float",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--consistency_model"
+                    ],
+                    "input": true,
+                    "dest": "consistency_model",
+                    "ex_has_default": false,
+                    "default": "mean_teacher",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--zca_input_file_path"
+                    ],
+                    "input": true,
+                    "dest": "zca_input_file_path",
+                    "ex_has_default": false,
+                    "default": "",
+                    "type": "str"
+                }
+            ],
             "ins": [
                 {
                 "type": "file",
-                "location": "svhn",
-                "artifact": "dataset",
-                "ex_from": "dataset order and label maps will be created each time",
+                "location": "",
+                "artifact": "",
+                "ex_from": "",
                 "ex_in_repo": false
                 }
             ],
@@ -150,38 +243,148 @@
             ]
             },
             {
-              "cmd": "python3 build_label_map.py --dataset_name=svhn",
-              "main": "python3 build_label_map.py",
+              "cmd": "python3 evaluate_checkpoints.py",
+              "main": "evaluate_checkpoints.py",
               "steps": [
                   "Prepare dataset"
               ],
-              "args_lib": "",
-              "args": [],
+              "args_lib": "absl.flags",
+              "args": [
+                {
+                    "names": [
+                        "--hparam_string"
+                    ],
+                    "input": true,
+                    "dest": "hparam_string",
+                    "ex_has_default": false,
+                    "default": "None",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--primary_dataset_name"
+                    ],
+                    "input": true,
+                    "dest": "primary_dataset_name",
+                    "ex_has_default": false,
+                    "default": "svhn",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--split"
+                    ],
+                    "input": true,
+                    "dest": "split",
+                    "ex_has_default": false,
+                    "default": "test",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--examples_to_take"
+                    ],
+                    "input": true,
+                    "dest": "examples_to_take",
+                    "ex_has_default": false,
+                    "default": 100,
+                    "type": "float",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--num_evals"
+                    ],
+                    "input": true,
+                    "dest": "num_evals",
+                    "ex_has_default": false,
+                    "default": 10,
+                    "type": "float",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--shuffle_buffer_size"
+                    ],
+                    "input": true,
+                    "dest": "shuffle_buffer_size",
+                    "ex_has_default": false,
+                    "default": 1000,
+                    "type": "float",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--training_length"
+                    ],
+                    "input": true,
+                    "dest": "training_length",
+                    "ex_has_default": false,
+                    "default": 500000,
+                    "type": "float",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--consistency_model"
+                    ],
+                    "input": true,
+                    "dest": "consistency_model",
+                    "ex_has_default": false,
+                    "default": "mean_teacher",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--zca_input_file_path"
+                    ],
+                    "input": true,
+                    "dest": "zca_input_file_path",
+                    "ex_has_default": false,
+                    "default": "",
+                    "type": "str",
+                    "mandatory": false
+                },
+                {
+                    "names": [
+                        "--checkpoints"
+                    ],
+                    "input": true,
+                    "dest": "checkpoints",
+                    "ex_has_default": false,
+                    "default": "None",
+                    "type": "str",
+                    "mandatory": false
+                }
+            ],
               "ins": [
-                  {
-                  "type": "file",
-                  "location": "svhn",
-                  "artifact": "dataset",
-                  "ex_from": "dataset order and label maps will be created each time",
-                  "ex_in_repo": false
-                  }
-              ],
-              "outs": [
-                  {
-                      "type": [],
-                      "location": [],
-                      "artifact": [],
-                      "ex_from": [],
-                      "ex_in_repo": false
-                  }
-              ]
+                {
+                "type": "file",
+                "location": "",
+                "artifact": "",
+                "ex_from": "",
+                "ex_in_repo": false
+                }
+            ],
+            "outs": [
+                {
+                    "type": [],
+                    "location": [],
+                    "artifact": [],
+                    "ex_from": [],
+                    "ex_in_repo": false
+                }
+            ]
               }
 
     ],
 
   "ex_metrics": {
-    "metrics_files": [
-    ],
+    "metrics_files": [],
     "prints": [],
     "plots": [],
     "others": [
@@ -191,12 +394,21 @@
     "from_cmd": [],
     "config_files": [
     ],
-    "in_code": ["warmup_steps","initial_lr","max_cons_multiplier","entropy_penalty_multiplier","ema_factor","vat_epsilon","vat_xi","lr_decay_steps","lr_decay_rate","num_classes","width","num_residual_units","lrelu_leakiness","pseudo_label_threshold"
-    ],
+    "in_code": ["--checkpoints", "scaffold"],
     "others": [
         {
             "name": [],
-            "metrics": []
+            "metrics":             [
+                "hparam_string",
+                "primary_dataset_name",
+                "secondary_dataset_name",
+                "label_map_index",
+                "n_labeled",
+                "training_length",
+                "batch_size",
+                "consistency_model",
+                "zca_input_file_path"
+            ]
         }
     ]
   }

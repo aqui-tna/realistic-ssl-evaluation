@@ -35,75 +35,23 @@ _PRINT_SPAN = 300
 _CHECK_TRIAL_EARLY_STOP = 100
 
 # Flags for model training
-flags.DEFINE_string(
-    "hparam_string", None, "String from which we parse hparams."
-)
-flags.DEFINE_string(
-    "primary_dataset_name", "svhn", "Name of dataset containing primary data."
-)
-flags.DEFINE_string(
-    "secondary_dataset_name",
-    "",
-    "Name of dataset containing secondary data. Defaults to primary dataset",
-)
+flags.DEFINE_string("hparam_string", None, "String from which we parse hparams.")
+flags.DEFINE_string("primary_dataset_name", "svhn", "Name of dataset containing primary data.")
+flags.DEFINE_string("secondary_dataset_name","","Name of dataset containing secondary data. Defaults to primary dataset",)
 flags.DEFINE_integer("label_map_index", 0, "Index of the label map.")
-flags.DEFINE_integer(
-    "n_labeled", -1, "Number of labeled examples, or -1 for entire dataset."
-)
-flags.DEFINE_integer(
-    "training_length", 500000, "number of steps to train for."
-)
+flags.DEFINE_integer("n_labeled", -1, "Number of labeled examples, or -1 for entire dataset.")
+flags.DEFINE_integer("training_length", 500000, "number of steps to train for.")
 flags.DEFINE_integer("batch_size", 100, "Size of the batch")
-flags.DEFINE_string(
-    "consistency_model", "mean_teacher", "Which consistency model to use."
-)
-flags.DEFINE_string(
-    "zca_input_file_path",
-    "",
-    "Path to ZCA input statistics. '' means don't ZCA.",
-)
-
-flags.DEFINE_float(
-    "unlabeled_data_random_fraction",
-    1.0,
-    "The fraction of unlabeled data to use during training.",
-)
-flags.DEFINE_string(
-    "labeled_classes_filter",
-    "",
-    "Comma-delimited list of class numbers from labeled "
-    "dataset to use during training. Defaults to all classes.",
-)
-flags.DEFINE_string(
-    "unlabeled_classes_filter",
-    "",
-    "Comma-delimited list of class numbers from unlabeled "
-    "dataset to use during training. Useful for labeled "
-    "datasets being used as unlabeled data. Defaults to all "
-    "classes.",
-)
-flags.DEFINE_string(
-    "dataset_mode",
-    "mix",
-    "'labeled' - use only labeled data to train the model. "
-    "'mix' (default) -  use mixed data to train the model",
-)
-
-# Flags for book-keeping
-flags.DEFINE_string(
-    "root_dir", None, "The overall dir in which we store experiments"
-)
+flags.DEFINE_string("consistency_model", "mean_teacher", "Which consistency model to use.")
+flags.DEFINE_string("zca_input_file_path","","Path to ZCA input statistics. '' means don't ZCA.",)
+flags.DEFINE_float("unlabeled_data_random_fraction",1.0,"The fraction of unlabeled data to use during training.",)
+flags.DEFINE_string("labeled_classes_filter","","Comma-delimited list of class numbers from labeled ""dataset to use during training. Defaults to all classes.",)
+flags.DEFINE_string("unlabeled_classes_filter","","Comma-delimited list of class numbers from unlabeled ""dataset to use during training. Useful for labeled ""datasets being used as unlabeled data. Defaults to all ""classes.",)
+flags.DEFINE_string("dataset_mode","mix","'labeled' - use only labeled data to train the model. ""'mix' (default) -  use mixed data to train the model",)
+flags.DEFINE_string("root_dir", None, "The overall dir in which we store experiments")
 flags.mark_flag_as_required("root_dir")
-
-flags.DEFINE_string(
-    "experiment_name", "default", "The name of this particular experiment"
-)
-flags.DEFINE_string(
-    "load_checkpoint",
-    "",
-    "Checkpoint file to start training from (e.g. "
-    ".../model.ckpt-354615), or None for random init",
-)
+flags.DEFINE_string("experiment_name", "default", "The name of this particular experiment")
+flags.DEFINE_string("load_checkpoint","","Checkpoint file to start training from (e.g. "".../model.ckpt-354615), or None for random init",)
 
 FLAGS = flags.FLAGS
 
