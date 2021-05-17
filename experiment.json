@@ -1,68 +1,71 @@
 {
-  "name": "brain-research/realistic-ssl-evaluation",
-  "url": "https://github.com/aqui-tna/realistic-ssl-evaluation",
-  "python_version": "3",
-  "requirements": {
-    "req_file": "requirements.txt",
-    "pip": [],
-    "others": []
-  },
-  "to_run": {
-      "decision": true,
-      "reason": ""
-  },
-  "entries": [
-      {
-        "cmd": "python3 build_tfrecords.py --dataset_name=cifar10",
-        "main": "build_tfrecords.py",
-        "steps": [
-            "Prepare dataset"
-        ],
-        "args_lib": "absl.flags",
-        "args": [
-            [
+    "name": "brain-research/realistic-ssl-evaluation",
+    "url": "https://github.com/aqui-tna/realistic-ssl-evaluation",
+    "python_version": "3",
+    "requirements": {
+        "req_file": "requirements.txt",
+        "pip": [],
+        "others": [
+            "mkdir",
+            "unzip"
+        ]
+    },
+    "to_run": {
+        "decision": false,
+        "reason": ""
+    },
+    "entries": [
+        {
+            "cmd": "python3 build_tfrecords.py --dataset_name=cifar10",
+            "main": "build_tfrecords.py",
+            "steps": [
+                "dataset-preparation"
+            ],
+            "args_lib": "absl.flags",
+            "args": [
+                [
+                    {
+                        "names": [
+                            "--directory"
+                        ],
+                        "input": true,
+                        "dest": "directory",
+                        "ex_has_default": false,
+                        "default": "paths.BUILD_TFRECORDS_DOWNLOAD_PATH",
+                        "type": "str",
+                        "mandatory": false
+                    },
+                    {
+                        "names": [
+                            "--seed"
+                        ],
+                        "input": true,
+                        "dest": "seed",
+                        "ex_has_default": false,
+                        "default": 0,
+                        "type": "float",
+                        "mandatory": false
+                    },
+                    {
+                        "names": [
+                            "--dataset_name"
+                        ],
+                        "input": true,
+                        "dest": "dataset_name",
+                        "ex_has_default": false,
+                        "default": "default",
+                        "type": "str",
+                        "mandatory": false
+                    }
+                ]
+            ],
+            "ins": [
                 {
-                    "names": [
-                        "--directory"
-                    ],
-                    "input": true,
-                    "dest": "directory",
-                    "ex_has_default": false,
-                    "default": "paths.BUILD_TFRECORDS_DOWNLOAD_PATH",
-                    "type": "str",
-                    "mandatory": false
-                },
-                {
-                    "names": [
-                        "--seed"
-                    ],
-                    "input": true,
-                    "dest": "seed",
-                    "ex_has_default": false,
-                    "default": 0,
-                    "type": "float",
-                    "mandatory": false
-                },
-                {
-                    "names": [
-                        "--dataset_name"
-                    ],
-                    "input": true,
-                    "dest": "dataset_name",
-                    "ex_has_default": false,
-                    "default": "default",
-                    "type": "str",
-                    "mandatory": false
-                }
-            ]
-        ],
-        "ins": [
-            {
-                "type": "link",
-                "location": "https://www.cs.toronto.edu/~kriz/cifar-10-matlab.tar.gz",
-                "artifact": "dataset",
-                "ex_from": "manual",
-                "ex_in_repo": false
+                    "type": "link",
+                    "location": "https://www.cs.toronto.edu/~kriz/cifar-10-matlab.tar.gz",
+                    "artifact": "dataset",
+                    "ex_from": "manual",
+                    "ex_in_repo": false
                 },
                 {
                     "type": "link",
@@ -70,57 +73,41 @@
                     "artifact": "dataset",
                     "ex_from": "manual",
                     "ex_in_repo": false
-                    }
-        ],
-        "outs": [
-            {
-                "type": [],
-                "location": [],
-                "artifact": [],
-                "ex_from": [],
-                "ex_in_repo": false
-            }
-        ]
+                }
+            ],
+            "outs": []
         },
         {
-          "cmd": "python3 build_label_map.py --dataset_name=cifar10",
-          "main": "build_label_map.py",
-          "steps": [
-              "Prepare dataset"
-          ],
-          "args_lib": "",
-          "args": [],
-          "ins": [
-              {
-              "type": "link",
-              "location": "https://www.cs.toronto.edu/~kriz/cifar-10-matlab.tar.gz",
-              "artifact": "dataset",
-              "ex_from": "manual",
-              "ex_in_repo": false
-              },
-              {
-                "type": "link",
-                "location": "http://ufldl.stanford.edu/housenumbers/{}_32x32.mat",
-                "artifact": "dataset",
-                "ex_from": "manual",
-                "ex_in_repo": false
+            "cmd": "python3 build_label_map.py --dataset_name=cifar10",
+            "main": "build_label_map.py",
+            "steps": [
+                "dataset-preparation"
+            ],
+            "args_lib": "tensorflow.python.platform.flags",
+            "args": [],
+            "ins": [
+                {
+                    "type": "link",
+                    "location": "https://www.cs.toronto.edu/~kriz/cifar-10-matlab.tar.gz",
+                    "artifact": "dataset",
+                    "ex_from": "manual",
+                    "ex_in_repo": false
+                },
+                {
+                    "type": "link",
+                    "location": "http://ufldl.stanford.edu/housenumbers/{}_32x32.mat",
+                    "artifact": "dataset",
+                    "ex_from": "manual",
+                    "ex_in_repo": false
                 }
-          ],
-          "outs": [
-              {
-                  "type": [],
-                  "location": [],
-                  "artifact": [],
-                  "ex_from": [],
-                  "ex_in_repo": false
-              }
-          ]
-          },
-          {
+            ],
+            "outs": []
+        },
+        {
             "cmd": "python3 train_model.py",
             "main": "train_model.py",
             "steps": [
-                "Training Model"
+                "model-raining"
             ],
             "args_lib": "absl.flags",
             "args": [
@@ -223,33 +210,17 @@
                     "type": "str"
                 }
             ],
-            "ins": [
-                {
-                "type": "file",
-                "location": "",
-                "artifact": "",
-                "ex_from": "",
-                "ex_in_repo": false
-                }
+            "ins": [],
+            "outs": []
+        },
+        {
+            "cmd": "python3 evaluate_checkpoints.py",
+            "main": "evaluate_checkpoints.py",
+            "steps": [
+                "testing"
             ],
-            "outs": [
-                {
-                    "type": [],
-                    "location": [],
-                    "artifact": [],
-                    "ex_from": [],
-                    "ex_in_repo": false
-                }
-            ]
-            },
-            {
-              "cmd": "python3 evaluate_checkpoints.py",
-              "main": "evaluate_checkpoints.py",
-              "steps": [
-                  "Prepare dataset"
-              ],
-              "args_lib": "absl.flags",
-              "args": [
+            "args_lib": "absl.flags",
+            "args": [
                 {
                     "names": [
                         "--hparam_string"
@@ -361,55 +332,25 @@
                     "mandatory": false
                 }
             ],
-              "ins": [
-                {
-                "type": "file",
-                "location": "",
-                "artifact": "",
-                "ex_from": "",
-                "ex_in_repo": false
-                }
-            ],
-            "outs": [
-                {
-                    "type": [],
-                    "location": [],
-                    "artifact": [],
-                    "ex_from": [],
-                    "ex_in_repo": false
-                }
-            ]
-              }
-
-    ],
-
-  "ex_metrics": {
-    "metrics_files": [],
-    "prints": [],
-    "plots": [],
-    "others": [
-    ]
-  },
-  "ex_hyperparams": {
-    "from_cmd": [],
-    "config_files": [
-    ],
-    "in_code": ["--checkpoints", "scaffold"],
-    "others": [
-        {
-            "name": [],
-            "metrics":             [
-                "hparam_string",
-                "primary_dataset_name",
-                "secondary_dataset_name",
-                "label_map_index",
-                "n_labeled",
-                "training_length",
-                "batch_size",
-                "consistency_model",
-                "zca_input_file_path"
-            ]
+            "ins": [],
+            "outs": []
         }
-    ]
-  }
+    ],
+    "ex_metrics": {
+        "metrics_files": [],
+        "prints": [],
+        "plots": [],
+        "others": []
+    },
+    "ex_hyperparams": {
+        "from_cmd": [
+            "label_map_index",
+            "n_labeled",
+            "training_length",
+            "batch_size"
+        ],
+        "config_files": [],
+        "in_code": [],
+        "others": []
+    }
 }
